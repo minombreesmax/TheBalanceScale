@@ -5,12 +5,14 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using System.Diagnostics;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
     [SerializeField] private Text AvgNumberText, RoundWinnerText, RoundText;
     [SerializeField] private Player[] Players;
     [SerializeField] private GameObject NumberInput;
+    [SerializeField] private Button RestartButton;
 
     private int round = 0, winner;
     private float avgNumber;
@@ -24,6 +26,8 @@ public class Game : MonoBehaviour
 
     private void GameStart() 
     {
+        RestartButton.gameObject.SetActive(false);
+
         for(int i = 0; i < Players.Length; i++) 
         {
             Players[i].HP = 0;
@@ -32,6 +36,7 @@ public class Game : MonoBehaviour
             Players[i].isBot = true;
         }
 
+        Players[0].Name = "You";
         Players[0].isBot = false;
     }
     
@@ -42,11 +47,10 @@ public class Game : MonoBehaviour
             if (Players[i].isBot)
             {
                 Players[i].StepNumber = UnityEngine.Random.Range(0, 101);
-                Players[i].ValueText.text = $"Player {i + 1}:\n{Players[i].StepNumber}";
+                Players[i].ValueText.text = $"{Players[i].Name}\n{Players[i].StepNumber}";
             }
         }
     }
-
 
     private void CountAvgNumber() 
     {
@@ -69,7 +73,7 @@ public class Game : MonoBehaviour
 
         for(int i = 1; i < Players.Length; i++) 
         {
-            if (Mathf.Abs(Players[i].StepNumber - avgNumber) < difference) 
+            if (Players[i].Active && Mathf.Abs(Players[i].StepNumber - avgNumber) < difference ) 
             {
                 difference = Mathf.Abs(Players[i].StepNumber - avgNumber);
                 winner = i;
@@ -85,7 +89,7 @@ public class Game : MonoBehaviour
         if (ActivePlayerCount() < 3)
             AddThirdNewRule();
 
-        RoundWinnerText.text = $"Player {winner + 1} won!";
+        RoundWinnerText.text = $"{Players[winner].Name} won round!";
     }
 
     private void AddFirstNewRule() 
@@ -163,7 +167,7 @@ public class Game : MonoBehaviour
         for(int i = 0; i < Players.Length; i++) 
         {
             if (Players[i].StepNumber >= 0)
-                Players[i].ValueText.text = $"Player {i + 1}:";
+                Players[i].ValueText.text = $"{Players[i].Name}";
         }
     }
 
@@ -182,7 +186,14 @@ public class Game : MonoBehaviour
 
     private void GameOver() 
     {
-        RoundWinnerText.text = $"Player {winner + 1} won the game!";
+        AvgNumberText.text = "";
+        RoundWinnerText.text = $"{Players[winner].Name} won the game!";
+        RestartButton.gameObject.SetActive(true);
+    }
+
+    public void Restart() 
+    {
+        SceneManager.LoadScene(0);
     }
 
     private IEnumerator PlayerGameOver() 
@@ -194,7 +205,7 @@ public class Game : MonoBehaviour
                 if (Players[i].HP <= -10) 
                 {
                     Players[i].HPText.gameObject.SetActive(false);
-                    Players[i].ValueText.text = $"Player {i + 1}\nis out";
+                    Players[i].ValueText.text = $"{Players[i].Name}\nis out";
                     Players[i].Active = false;
                 }
             }
@@ -214,7 +225,7 @@ public class Game : MonoBehaviour
             if (DataHolder.numberInputed)
             {
                 Players[0].StepNumber = DataHolder.playerStep;
-                Players[0].ValueText.text = $"Player {1}:\n{Players[0].StepNumber}";
+                Players[0].ValueText.text = $"{Players[0].Name}\n{Players[0].StepNumber}";
                 DataHolder.numberInputed = false;
                 break;
             }
@@ -238,14 +249,22 @@ public class Game : MonoBehaviour
             {
                 RoundCount();
                 yield return new WaitForSeconds(1f);
-                StartCoroutine(UserStep());
-                yield return new WaitUntil(() => DataHolder.playerStep > 0);
+
+                if (Players[0].Active)
+                {
+                    StartCoroutine(UserStep());
+                    yield return new WaitUntil(() => DataHolder.playerStep >= 0);
+                }
+
                 RandNumeric();
                 yield return new WaitForSeconds(2f);
+
                 CountAvgNumber();
                 yield return new WaitForSeconds(2f);
+
                 GetRoundWinner();
                 yield return new WaitForSeconds(1f);
+
                 TakeAwayHP();
             }
 
