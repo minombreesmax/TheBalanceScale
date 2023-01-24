@@ -299,7 +299,7 @@ PrefabInstance:
     - target: {fileID: 8346937235479267729, guid: c2bd02454b725fc49809c24982b72107, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1866290891}
+      objectReference: {fileID: 0}
     - target: {fileID: 8346937235479267729, guid: c2bd02454b725fc49809c24982b72107, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Restart
@@ -630,7 +630,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.015686275, g: 0.3647059, b: 0.72156864, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1421,7 +1421,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1866290886}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 117da4d1f01d95b4e821e96df28ff39b, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b2a60972bb3c3e43972d68cb8ba3046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AvgNumberText: {fileID: 908373229}

@@ -12,19 +12,11 @@ public class Player : MonoBehaviour
     public bool isBot { get; set; }
     public string Name { get; set; }
 
-    private List<string> Names = new List<string>() { 
-        "Sofia", "Ann", "Maria", "Arisu", "Emma", "Ivan", 
-        "Alex", "Jack", "Andrew", "Mark", "Li", "Minato"};
-
-    private void Start()
+    public void RandName() 
     {
-        RandName();
-    }
-
-    private void RandName() 
-    {
-        var rand = Random.Range(0, Names.Count);
-        Name = Names[rand];
+        var rand = Random.Range(0, DataHolder.Names.Count);
+        Name = DataHolder.Names[rand];
+        DataHolder.Names.RemoveAt(rand);
     }
 }
 
