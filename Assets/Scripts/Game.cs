@@ -19,7 +19,8 @@ public class Game : MonoBehaviour
     
     public void Restart()
     {
-        SceneManager.LoadScene(0);
+        DataHolder.Users.Clear();
+        SceneManager.LoadScene(1);
     }
 
     protected void GameStart() 
@@ -30,15 +31,14 @@ public class Game : MonoBehaviour
         Players[0].Name = "You";
     }
 
-    protected void RandNumeric() 
+    protected void SetNumbers() 
     {
         for(int i = 0; i < Players.Length; i++) 
         {
             if (Players[i].isBot)
-            {
                 Players[i].StepNumber = UnityEngine.Random.Range(0, 101);
-                Players[i].ValueText.text = $"{Players[i].Name}\n{Players[i].StepNumber}";
-            }
+            
+            Players[i].ValueText.text = $"{Players[i].Name}\n{Players[i].StepNumber}";
         }
     }
 
@@ -102,6 +102,7 @@ public class Game : MonoBehaviour
     {
         AvgNumberText.text = "";
         RoundWinnerText.text = $"{Players[winner].Name} won the game!";
+        Players[winner].ValueText.text = $"{Players[winner].Name}\n Winner!";
         RestartButton.gameObject.SetActive(true);
     }
     

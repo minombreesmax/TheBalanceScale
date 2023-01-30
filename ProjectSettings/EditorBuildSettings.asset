@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScene.unity
     guid: 2f406df587910b04fb32fa974b3fd724
   - enabled: 1
-    path: Assets/Scenes/MainScene.unity
+    path: Assets/Scenes/MainSceneSinglerPlay.unity
+    guid: 6630ee7b8955f4746bae8cdf8a31a3d3
+  - enabled: 1
+    path: Assets/Scenes/MainSceneMultiPlay.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

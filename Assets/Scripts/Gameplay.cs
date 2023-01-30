@@ -1,10 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Gameplay : Game
 {
+    [SerializeField] Animator NumberInputAnimator;
+
     void Start()
     {
         GameStart();
@@ -12,7 +12,7 @@ public class Gameplay : Game
         StartCoroutine(PlayerGameOver());
     }
 
-    private IEnumerator PlayerGameOver()
+    private IEnumerator PlayerGameOver() 
     {
         while (true)
         {
@@ -25,7 +25,9 @@ public class Gameplay : Game
                     Players[i].Active = false;
 
                     if (!DataHolder.Names.Contains(Players[i].Name))
+                    {
                         DataHolder.Names.Add(Players[i].Name);
+                    }
                 }
             }
 
@@ -35,31 +37,29 @@ public class Gameplay : Game
 
     private IEnumerator UserStep(int i)
     {
-        NumberInput.SetActive(true);
+        NumberInputAnimator.Play("NumberInputComing");
         DataHolder.numberInputed = false;
-        DataHolder.playerStep = -1;
+        DataHolder.Users[i].StepNumber = 0;
 
         while (true)
         {
             if (DataHolder.numberInputed)
             {
                 Players[i].StepNumber = DataHolder.playerStep;
-                Players[i].ValueText.text = $"{Players[i].Name}\n{Players[i].StepNumber}";
+                DataHolder.Users[i].StepNumber = Players[i].StepNumber;
                 DataHolder.numberInputed = false;
                 break;
             }
 
             yield return null;
         }
-
-        NumberInput.SetActive(false);
     }
 
     private IEnumerator Play()
     {
         while (true)
         {
-            if (ActivePlayerCount() == 1)
+            if (ActivePlayerCount() <= 1)
             {
                 GameOver();
                 break;
@@ -69,16 +69,18 @@ public class Gameplay : Game
                 RoundCount();
                 yield return new WaitForSeconds(1f);
 
-                if (Players[0].Active)
+                for (int i = 0; i < DataHolder.Users.Count; i++)
                 {
-                    for (int i = 0; i < DataHolder.Users.Count; i++)
+                    if (DataHolder.Users[i].Active)
                     {
                         StartCoroutine(UserStep(i));
-                        yield return new WaitUntil(() => DataHolder.playerStep >= 0);
+                        yield return new WaitUntil(() => DataHolder.Users[i].StepNumber > 0);
                     }
                 }
 
-                RandNumeric();
+                NumberInputAnimator.Play("NumberInputOut");
+
+                SetNumbers();
                 yield return new WaitForSeconds(2f);
 
                 CountAvgNumber();

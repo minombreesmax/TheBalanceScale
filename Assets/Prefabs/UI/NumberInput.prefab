@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 2292566526000376814}
   - component: {fileID: 4419592804336790855}
   - component: {fileID: 6837433719443920577}
+  - component: {fileID: 2620284713653661521}
   m_Layer: 5
   m_Name: NumberInput
   m_TagString: Untagged
@@ -437,6 +438,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NumberText: {fileID: 8050635803786404566}
   OkButton: {fileID: 3514915462159473506}
+  NumberButtons: []
+--- !u!95 &2620284713653661521
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8157947156695609680}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8734967695030495260
 GameObject:
   m_ObjectHideFlags: 0

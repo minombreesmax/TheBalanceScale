@@ -9,6 +9,7 @@ public class NumberInput : MonoBehaviour
     [SerializeField] Text NumberText;
     [SerializeField] Button OkButton;
     [SerializeField] Button[] NumberButtons;
+
     private string number;
     private int numChars;
 
@@ -41,6 +42,7 @@ public class NumberInput : MonoBehaviour
     {
         number = null;
         numChars = 0;
+        NumberText.text = "";
     }
 
     public void Ok() 

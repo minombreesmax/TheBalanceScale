@@ -11,5 +11,5 @@ public static class DataHolder
 
     public static List<Player> Users = new List<Player>();
 
-    public static bool[] IsPlayerBot = new bool[5];
+    public static bool[] IsPlayerBot = {false, true, true, true, true};
 }

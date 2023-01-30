@@ -26,7 +26,7 @@ public class UI : MonoBehaviour
 
     public void SinglePlayer() 
     {
-        StartTheGame(false, true, true, true, true);
+        StartTheGame(false, true, true, true, true, 1);
     }
 
     public void LocalMultiPlayer() 
@@ -39,22 +39,22 @@ public class UI : MonoBehaviour
 
     public void Set2Players3AI() 
     {
-        StartTheGame(false, false, true, true, true);
+        StartTheGame(false, false, true, true, true, 2);
     }
 
     public void Set3Players2AI()
     {
-        StartTheGame(false, false, false, true, true);
+        StartTheGame(false, false, false, true, true, 2);
     }
 
     public void Set4Players1AI()
     {
-        StartTheGame(false, false, false, false, true);
+        StartTheGame(false, false, false, false, true, 2);
     }
 
     public void Set5Players()
     {
-        StartTheGame(false, false, false, false, false);
+        StartTheGame(false, false, false, false, false, 2);
     }
 
     public void Back() 
@@ -84,13 +84,13 @@ public class UI : MonoBehaviour
         StartPlay.SetActive(true);
     }
 
-    private void StartTheGame(bool player1, bool player2, bool player3, bool player4, bool player5) 
+    private void StartTheGame(bool player1, bool player2, bool player3, bool player4, bool player5, int sceneN) 
     {
         DataHolder.IsPlayerBot[0] = player1;
         DataHolder.IsPlayerBot[1] = player2;
         DataHolder.IsPlayerBot[2] = player3;
         DataHolder.IsPlayerBot[3] = player4;
         DataHolder.IsPlayerBot[4] = player5;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(sceneN);
     }
 }
