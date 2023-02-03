@@ -9,7 +9,5 @@ public static class DataHolder
         "Sofia", "Ann", "Maria", "Arisu", "Emma", "Ivan",
         "Alex", "Jack", "Andrew", "Mark", "Li", "Minato"};
 
-    public static List<Player> Users = new List<Player>();
-
     public static bool[] IsPlayerBot = {false, true, true, true, true};
 }

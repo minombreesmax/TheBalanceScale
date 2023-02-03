@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public float HP { get; set; }
     public int StepNumber { get; set; }
     public bool Active { get; set; }
-    public bool isBot { get; set; }
+    public bool IsBot { get; set; }
     public string Name { get; set; }
 
     public void RandName() 

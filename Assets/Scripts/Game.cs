@@ -1,45 +1,42 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.IO;
-using System.Diagnostics;
-using UnityEngine.SceneManagement;
+
 
 public class Game : MonoBehaviour
 {
     [SerializeField] protected Text AvgNumberText, RoundWinnerText, RoundText;
     [SerializeField] protected Player[] Players;
     [SerializeField] protected GameObject NumberInput;
-    [SerializeField] protected Button RestartButton;
+    [SerializeField] protected Button RestartButton, HomeButton;
+    [SerializeField] protected Animator NumberInputAnimator;
+    
+    protected List<Player> Users = new List<Player>();
 
     protected int round = 0, winner;
     protected float avgNumber;
-    
-    public void Restart()
-    {
-        DataHolder.Users.Clear();
-        SceneManager.LoadScene(1);
-    }
 
     protected void GameStart() 
     {
         RestartButton.gameObject.SetActive(false);
+
         SetPlayersAuto();
         SetIsPlayerBot(DataHolder.IsPlayerBot);
-        Players[0].Name = "You";
     }
 
     protected void SetNumbers() 
     {
-        for(int i = 0; i < Players.Length; i++) 
+        for (int i = 0; i < Players.Length; i++) 
         {
-            if (Players[i].isBot)
+            if (Players[i].IsBot)
                 Players[i].StepNumber = UnityEngine.Random.Range(0, 101);
-            
+
             Players[i].ValueText.text = $"{Players[i].Name}\n{Players[i].StepNumber}";
         }
+
+        NumberInputAnimator.Play("NumberInputOut");
     }
 
     protected void CountAvgNumber() 
@@ -53,7 +50,7 @@ public class Game : MonoBehaviour
         }
 
         avgNumber = (avgNumber / ActivePlayerCount()) * 0.8f;
-        AvgNumberText.text = $"{avgNumber}";
+        AvgNumberText.text = $"{Math.Round(avgNumber, 2)}";
     }
 
     protected void GetRoundWinner() 
@@ -96,6 +93,8 @@ public class Game : MonoBehaviour
             if (Players[i].StepNumber >= 0)
                 Players[i].ValueText.text = $"{Players[i].Name}";
         }
+
+        NumberInputAnimator.Play("NumberInputComing");
     }
 
     protected void GameOver() 
@@ -119,6 +118,14 @@ public class Game : MonoBehaviour
         return activePlayersCount;
     }
 
+    protected void AddToNames(Player player) 
+    {
+        if (!DataHolder.Names.Contains(player.Name))
+        {
+            DataHolder.Names.Add(player.Name);
+        }
+    }
+
     private void SetPlayersAuto()
     {
         for (int i = 0; i < Players.Length; i++)
@@ -126,7 +133,7 @@ public class Game : MonoBehaviour
             Players[i].HP = 0;
             Players[i].HPText.text = $"{Players[i].HP}";
             Players[i].Active = true;
-            Players[i].isBot = true;
+            Players[i].IsBot = true;
 
             Players[i].RandName();
             Players[i].ValueText.text = $"{Players[i].Name}";
@@ -137,10 +144,12 @@ public class Game : MonoBehaviour
     {
         for (int i = 0; i < Players.Length; i++) 
         {
-            Players[i].isBot = IsPlayerBot[i];
+            Players[i].IsBot = IsPlayerBot[i];
 
-            if (!Players[i].isBot)
-                DataHolder.Users.Add(Players[i]);
+            if (!Players[i].IsBot) 
+                Users.Add(Players[i]);
         }
     }
+
+
 }

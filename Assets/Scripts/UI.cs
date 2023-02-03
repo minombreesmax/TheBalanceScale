@@ -1,96 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    [SerializeField] GameObject StartPlay, GameModes, MultiplayerButtons;
-    [SerializeField] Button SinglePlayerButton, LocalMultiPlayerButton;
-    private int menuLayer = 0;
+    [SerializeField] GameObject GameFields, UIButtons, PauseMenu;
 
-    private void Start()
+    public void BackToMainMenu()
     {
-        StartPlay.SetActive(true);
-        GameModes.SetActive(false);
+        Time.timeScale = 1f;
+        GlobalEventManager.ReturnNames();
+        SceneManager.LoadScene(0);
     }
 
-    public void Play()
+    public void Restart()
     {
-        StartPlay.SetActive(false);
-        GameModes.SetActive(true);
-        menuLayer++;
+        SceneManager.LoadScene(1);
     }
 
-    public void SinglePlayer() 
+    public void Pause(bool state) 
     {
-        StartTheGame(false, true, true, true, true, 1);
-    }
-
-    public void LocalMultiPlayer() 
-    {
-        SinglePlayerButton.gameObject.SetActive(false);
-        LocalMultiPlayerButton.gameObject.SetActive(false);
-        MultiplayerButtons.SetActive(true);
-        menuLayer++;
-    }
-
-    public void Set2Players3AI() 
-    {
-        StartTheGame(false, false, true, true, true, 2);
-    }
-
-    public void Set3Players2AI()
-    {
-        StartTheGame(false, false, false, true, true, 2);
-    }
-
-    public void Set4Players1AI()
-    {
-        StartTheGame(false, false, false, false, true, 2);
-    }
-
-    public void Set5Players()
-    {
-        StartTheGame(false, false, false, false, false, 2);
-    }
-
-    public void Back() 
-    {
-        if(menuLayer == 2) 
-        {
-            BackToGameModes();
-        }
-        else 
-        {
-            BackToStertMenu();
-        }
-
-        menuLayer--;
-    }
-
-    private void BackToGameModes() 
-    {
-        MultiplayerButtons.SetActive(false);
-        SinglePlayerButton.gameObject.SetActive(true);
-        LocalMultiPlayerButton.gameObject.SetActive(true);
-    }
-
-    private void BackToStertMenu() 
-    {
-        GameModes.SetActive(false);
-        StartPlay.SetActive(true);
-    }
-
-    private void StartTheGame(bool player1, bool player2, bool player3, bool player4, bool player5, int sceneN) 
-    {
-        DataHolder.IsPlayerBot[0] = player1;
-        DataHolder.IsPlayerBot[1] = player2;
-        DataHolder.IsPlayerBot[2] = player3;
-        DataHolder.IsPlayerBot[3] = player4;
-        DataHolder.IsPlayerBot[4] = player5;
-        SceneManager.LoadScene(sceneN);
+        GameFields.SetActive(!state);
+        UIButtons.SetActive(!state);
+        PauseMenu.SetActive(state);
+        Time.timeScale = state ? 0f : 1f;
     }
 }

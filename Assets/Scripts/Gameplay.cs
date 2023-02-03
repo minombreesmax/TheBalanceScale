@@ -3,13 +3,17 @@ using UnityEngine;
 
 public class Gameplay : Game
 {
-    [SerializeField] Animator NumberInputAnimator;
-
     void Start()
     {
         GameStart();
         StartCoroutine(Play());
         StartCoroutine(PlayerGameOver());
+        AddEvents();
+    }
+
+    private void AddEvents() 
+    {
+        GlobalEventManager.ReturnNamesAction += ReturnUsedNames;
     }
 
     private IEnumerator PlayerGameOver() 
@@ -23,11 +27,7 @@ public class Gameplay : Game
                     Players[i].HPText.gameObject.SetActive(false);
                     Players[i].ValueText.text = $"{Players[i].Name}\nis out";
                     Players[i].Active = false;
-
-                    if (!DataHolder.Names.Contains(Players[i].Name))
-                    {
-                        DataHolder.Names.Add(Players[i].Name);
-                    }
+                    AddToNames(Players[i]);
                 }
             }
 
@@ -37,16 +37,15 @@ public class Gameplay : Game
 
     private IEnumerator UserStep(int i)
     {
-        NumberInputAnimator.Play("NumberInputComing");
-        DataHolder.numberInputed = false;
-        DataHolder.Users[i].StepNumber = 0;
+        DataHolder.numberInputed = false; //??
+        Users[i].StepNumber = 0;
 
         while (true)
         {
             if (DataHolder.numberInputed)
             {
                 Players[i].StepNumber = DataHolder.playerStep;
-                DataHolder.Users[i].StepNumber = Players[i].StepNumber;
+                Users[i].StepNumber = Players[i].StepNumber;
                 DataHolder.numberInputed = false;
                 break;
             }
@@ -69,16 +68,14 @@ public class Gameplay : Game
                 RoundCount();
                 yield return new WaitForSeconds(1f);
 
-                for (int i = 0; i < DataHolder.Users.Count; i++)
+                for (int i = 0; i < Users.Count; i++)
                 {
-                    if (DataHolder.Users[i].Active)
+                    if (Users[i].Active)
                     {
                         StartCoroutine(UserStep(i));
-                        yield return new WaitUntil(() => DataHolder.Users[i].StepNumber > 0);
+                        yield return new WaitUntil(() => Users[i].StepNumber > 0);
                     }
                 }
-
-                NumberInputAnimator.Play("NumberInputOut");
 
                 SetNumbers();
                 yield return new WaitForSeconds(2f);
@@ -93,6 +90,14 @@ public class Gameplay : Game
             }
 
             yield return new WaitForSeconds(2f);
+        }
+    }
+
+    private void ReturnUsedNames() 
+    {
+        foreach(var player in Players) 
+        {
+            AddToNames(player);
         }
     }
 }
