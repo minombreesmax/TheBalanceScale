@@ -8,12 +8,7 @@ public class Gameplay : Game
         GameStart();
         StartCoroutine(Play());
         StartCoroutine(PlayerGameOver());
-        AddEvents();
-    }
-
-    private void AddEvents() 
-    {
-        GlobalEventManager.ReturnNamesAction += ReturnUsedNames;
+        GlobalEventManager.ReturnNamesEvent.AddListener(ReturnUsedNames);
     }
 
     private IEnumerator PlayerGameOver() 
@@ -37,16 +32,18 @@ public class Gameplay : Game
 
     private IEnumerator UserStep(int i)
     {
-        DataHolder.numberInputed = false; //??
+        DataHolder.numberInputed = false; 
         Users[i].StepNumber = 0;
+        NumberInputHeaderText.text = $"{Players[i].Name}";
+        GlobalEventManager.StartTimer();
 
         while (true)
         {
             if (DataHolder.numberInputed)
             {
+                GlobalEventManager.StopTimer();
                 Players[i].StepNumber = DataHolder.playerStep;
                 Users[i].StepNumber = Players[i].StepNumber;
-                DataHolder.numberInputed = false;
                 break;
             }
 

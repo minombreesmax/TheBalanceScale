@@ -40,22 +40,22 @@ public class GameMode : MonoBehaviour
     #region Set n-Players and k-AI
     public void Set2Players3AI() 
     {
-        StartTheGame(2, false, false, true, true, true);
+        StartTheGame(1, false, false, true, true, true);
     }
 
     public void Set3Players2AI()
     {
-        StartTheGame(2, false, false, false, true, true);
+        StartTheGame(1, false, false, false, true, true);
     }
 
     public void Set4Players1AI()
     {
-        StartTheGame(2, false, false, false, false, true);
+        StartTheGame(1, false, false, false, false, true);
     }
 
     public void Set5Players()
     {
-        StartTheGame(2, false, false, false, false, false);
+        StartTheGame(1, false, false, false, false, false);
     }
     #endregion
 

@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public class Game : MonoBehaviour
 {
-    [SerializeField] protected Text AvgNumberText, RoundWinnerText, RoundText;
+    [SerializeField] protected Text AvgNumberText, RoundWinnerText, RoundText, NumberInputHeaderText;
     [SerializeField] protected Player[] Players;
     [SerializeField] protected GameObject NumberInput;
-    [SerializeField] protected Button RestartButton, HomeButton;
+    [SerializeField] protected Button RestartButton;
     [SerializeField] protected Animator NumberInputAnimator;
     
     protected List<Player> Users = new List<Player>();
@@ -21,7 +21,6 @@ public class Game : MonoBehaviour
     protected void GameStart() 
     {
         RestartButton.gameObject.SetActive(false);
-
         SetPlayersAuto();
         SetIsPlayerBot(DataHolder.IsPlayerBot);
     }
