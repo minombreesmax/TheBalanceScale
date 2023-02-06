@@ -14,6 +14,7 @@ public class Game : MonoBehaviour
     [SerializeField] protected Animator NumberInputAnimator;
     
     protected List<Player> Users = new List<Player>();
+    private Player[] PrevPlayers = new Player[5];
 
     protected int round = 0, winner;
     protected float avgNumber;
@@ -29,8 +30,13 @@ public class Game : MonoBehaviour
     {
         for (int i = 0; i < Players.Length; i++) 
         {
+            PrevPlayers[i] = Players[i];
+
             if (Players[i].IsBot)
-                Players[i].StepNumber = UnityEngine.Random.Range(0, 101);
+            {
+                Players[i].StepNumber = Players[i].StepNumber == 0 ? 
+                    UnityEngine.Random.Range(0, 101) : Players[i].SmartDigitSelection(PrevPlayers, Players[i].Name);
+            }
 
             Players[i].ValueText.text = $"{Players[i].Name}\n{Players[i].StepNumber}";
         }

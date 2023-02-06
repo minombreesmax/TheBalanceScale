@@ -10,4 +10,5 @@ public static class DataHolder
         "Alex", "Jack", "Andrew", "Mark", "Li", "Minato"};
 
     public static bool[] IsPlayerBot = {false, true, true, true, true};
+   
 }

@@ -18,6 +18,23 @@ public class Player : MonoBehaviour
         Name = DataHolder.Names[rand];
         DataHolder.Names.RemoveAt(rand);
     }
+
+    public int SmartDigitSelection(Player[] players, string name) 
+    {
+        int digit = 0;
+
+        foreach (var player in players) 
+        {
+            if (player.Name != name)
+                digit += player.StepNumber;
+        }
+
+        digit /= 4;
+        digit += Random.Range(-20, 20);
+
+        return Mathf.Clamp(digit, 0, 100); 
+    }
+
 }
 
 

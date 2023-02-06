@@ -73,11 +73,6 @@ public class GameMode : MonoBehaviour
         menuLayer--;
     }
 
-    public void Exit() 
-    {
-        Application.Quit();
-    }
-
     private void BackToGameModes() 
     {
         MultiplayerButtons.SetActive(false);
