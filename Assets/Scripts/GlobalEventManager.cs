@@ -9,6 +9,7 @@ public class GlobalEventManager : MonoBehaviour
     public static UnityEvent ReturnNamesEvent = new UnityEvent();
     public static UnityEvent StartTimerEvent = new UnityEvent();
     public static UnityEvent StopTimerEvent = new UnityEvent();
+    public static UnityEvent RoundSoundEvent = new UnityEvent();
 
     public static void ReturnNames() 
     {
@@ -23,5 +24,10 @@ public class GlobalEventManager : MonoBehaviour
     public static void StopTimer()
     {
         StopTimerEvent.Invoke();
+    }
+
+    public static void RoundSound() 
+    {
+        RoundSoundEvent.Invoke();
     }
 }

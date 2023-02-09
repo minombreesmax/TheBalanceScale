@@ -25,19 +25,6 @@ public class NumberInput : MonoBehaviour
         NumberText.text = number;
     }
 
-    public void NumberButtonsStatus(bool interactable) 
-    {
-        for(int i = 0; i < NumberButtons.Length; i++)
-        {
-            NumberButtons[i].interactable = interactable;
-        }
-
-        if (number == "10")
-        {
-            NumberButtons[0].interactable = true;
-        }
-    }
-
     public void Clear() 
     {
         number = null;
@@ -52,6 +39,19 @@ public class NumberInput : MonoBehaviour
         numChars = 0;
         number = "";
         NumberText.text = "";
+    }
+
+    private void NumberButtonsStatus(bool interactable)
+    {
+        for (int i = 0; i < NumberButtons.Length; i++)
+        {
+            NumberButtons[i].interactable = interactable;
+        }
+
+        if (number == "10")
+        {
+            NumberButtons[0].interactable = true;
+        }
     }
 
     private IEnumerator SetNumber() 

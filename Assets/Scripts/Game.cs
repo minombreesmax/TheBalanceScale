@@ -14,14 +14,15 @@ public class Game : MonoBehaviour
     [SerializeField] protected Animator NumberInputAnimator;
     
     protected List<Player> Users = new List<Player>();
-    private Player[] PrevPlayers = new Player[5];
+    private Player[] PrevPlayers = new Player[5];   
 
-    protected int round = 0, winner;
+    protected int winner;
     protected float avgNumber;
 
     protected void GameStart() 
     {
         RestartButton.gameObject.SetActive(false);
+        DataHolder.round = 0;
         SetPlayersAuto();
         SetIsPlayerBot(DataHolder.IsPlayerBot);
     }
@@ -88,10 +89,11 @@ public class Game : MonoBehaviour
 
     protected void RoundCount() 
     {
-        round++;
-        RoundText.text = $"Round {round}";
+        DataHolder.round++;
+        RoundText.text = $"Round {DataHolder.round}";
         AvgNumberText.text = null;
         RoundWinnerText.text = null;
+        GlobalEventManager.RoundSound();
 
         for(int i = 0; i < Players.Length; i++) 
         {
