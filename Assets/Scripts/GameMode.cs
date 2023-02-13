@@ -1,26 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameMode : MonoBehaviour
 {
-    [SerializeField] Button SinglePlayerButton, LocalMultiPlayerButton, BackToMainMenuButton;
-    [SerializeField] GameObject GameModes, StartPlay, MultiplayerButtons;
+    [SerializeField] GameObject StartPlay, GameModes, MultiplayerButtons;
+    [SerializeField] Button SinglePlayerButton, LocalMultiPlayerButton;
+    private int menuLayer = 0;
+
+    private void Start()
+    {
+        StartPlay.SetActive(true);
+        GameModes.SetActive(false);
+    }
+
+    public void Play()
+    {
+        StartPlay.SetActive(false);
+        GameModes.SetActive(true);
+        menuLayer++;
+    }
 
     public void SinglePlayer() 
     {
         StartTheGame(1, false, true, true, true, true);
     }
 
-    public void LocalMultiplayer() 
+    public void LocalMultiPlayer() 
     {
-        LocalMultiplayerOn(true);
+        SinglePlayerButton.gameObject.SetActive(false);
+        LocalMultiPlayerButton.gameObject.SetActive(false);
+        MultiplayerButtons.SetActive(true);
+        menuLayer++;
     }
 
+    #region Set n-Players and k-AI
     public void Set2Players3AI() 
     {
         StartTheGame(1, false, false, true, true, true);
@@ -40,24 +57,33 @@ public class GameMode : MonoBehaviour
     {
         StartTheGame(1, false, false, false, false, false);
     }
+    #endregion
 
-    public void BackToMainMenu() 
+    public void BackTo() 
+    {
+        if (menuLayer == 2) 
+        {
+            BackToGameModes();
+        }
+        else 
+        {
+            BackToStartMenu();
+        }
+
+        menuLayer--;
+    }
+
+    private void BackToGameModes() 
+    {
+        MultiplayerButtons.SetActive(false);
+        SinglePlayerButton.gameObject.SetActive(true);
+        LocalMultiPlayerButton.gameObject.SetActive(true);
+    }
+
+    private void BackToStartMenu() 
     {
         GameModes.SetActive(false);
         StartPlay.SetActive(true);
-    }
-
-    public void BackToModeSelect() 
-    {
-        LocalMultiplayerOn(false);
-    }
-
-    private void LocalMultiplayerOn(bool state)
-    {
-        SinglePlayerButton.gameObject.SetActive(!state);
-        LocalMultiPlayerButton.gameObject.SetActive(!state);
-        BackToMainMenuButton.gameObject.SetActive(!state);
-        MultiplayerButtons.SetActive(state);
     }
 
     private void StartTheGame(int sceneN, params bool[] player) 

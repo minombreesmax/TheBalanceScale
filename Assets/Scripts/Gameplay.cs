@@ -55,6 +55,7 @@ public class Gameplay : Game
     {
         while (true)
         {
+            print("play");
             if (ActivePlayerCount() <= 1)
             {
                 GameOver();

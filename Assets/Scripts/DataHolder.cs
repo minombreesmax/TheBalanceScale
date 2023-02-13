@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 public static class DataHolder
 {
-    public static int round { get; set; }
     public static int playerStep { get; set; }
     public static bool numberInputed { get; set; }
 

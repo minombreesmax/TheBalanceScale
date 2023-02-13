@@ -4,19 +4,30 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    [SerializeField] AudioSource BackgroundMusicSource, AudioSource;
     [SerializeField] AudioClip[] RoundSounds;
-
-    private AudioSource audioSource;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        GlobalEventManager.RoundSoundEvent.AddListener(PlayRoundMusic);
+        BackgroundMusicSource.Play();
+        AddEvents();
     }
 
     public void PlayRoundMusic() 
     {
-        audioSource.clip = RoundSounds[DataHolder.round - 1];
-        audioSource.Play();
+        AudioSource.clip = RoundSounds[DataHolder.round - 1];
+        AudioSource.Play();
+    }
+
+    public void PlaySoundToConvert(AudioClip clip) 
+    {
+        AudioSource.clip = clip;
+        AudioSource.Play();
+    }
+
+    private void AddEvents() 
+    {
+        GlobalEventManager.RoundSoundEvent.AddListener(PlayRoundMusic);
+        ConvertTextToSpeach.Instance.OnSuccessfullyConvertTextToAudioAction += PlaySoundToConvert;     
     }
 }
